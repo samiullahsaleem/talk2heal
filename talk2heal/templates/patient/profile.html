@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Patient Profile</title>
+    <!-- Tailwind CSS CDN -->
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+</head>
+
+<body class="bg-gray-100">
+    <nav class="bg-blue-600 shadow">
+        <div class="container mx-auto px-6 py-4">
+            <div class="flex justify-between items-center">
+                <div>
+                    <a class="text-white text-2xl font-semibold" href="{% url 'psychologists_list' %}">Dashboard</a>                    </div>
+                <div class="hidden md:block">
+                    <div class="ml-10 flex items-baseline space-x-4">
+                        <a href="{% url 'chat' %}" class="text-gray-300 hover:bg-gray-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium">Talk2Heal Bot</a>
+
+                        <a href="{% url 'patient_appointments' %}" class="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium">My Appointments</a>
+                        <a href="{% url 'patient_profile' %}" class="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium">Profile</a>
+                        <a href="{% url 'psychologists_list'  %}" class="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium">Psychologists</a>
+                        <a href="{% url 'patient_spendings' %}" class="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium">My Spendings</a>
+                        <a href="{% url 'patient_logout' %}" class="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium">Logout</a>
+                    </div>
+                </div>
+                <div class="md:hidden">
+                    <button type="button" class="text-gray-400 hover:text-white focus:outline-none focus:text-white">
+                        <svg class="h-6 w-6 fill-current" viewBox="0 0 24 24">
+                            <path fill-rule="evenodd" d="M4 6h16V5H4v1zm0 5h16v-1H4v1zm0 7h16v-1H4v1z" clip-rule="evenodd" />
+                        </svg>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <div class="md:hidden">
+            <div class="px-2 pt-2 pb-3 space-y-1 sm:px-3">
+                <a href="{% url 'patient_appointments' %}" class="text-gray-300 hover:bg-gray-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium">My Appointments</a>
+                <a href="{% url 'patient_profile' %}" class="text-gray-300 hover:bg-gray-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium">Profile</a>
+                <a href="{% url 'psychologists_list'  %}" class="text-gray-300 hover:bg-gray-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium">Psychologists</a>
+                <a href="{% url 'patient_spendings' %}" class="text-gray-300 hover:bg-gray-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium">My Spendings</a>
+                <a href="{% url 'patient_logout' %}" class="text-gray-300 hover:bg-gray-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium">Logout</a>
+            </div>
+        </div>
+    </nav>
+    <div class="container mx-auto mt-5 p-4">
+
+
+        <h2 class="text-2xl font-bold mb-4">Patient Profile</h2>
+
+        <!-- Display profile photo -->
+        {% if patient.profile_picture %}
+        <img src="{{ patient.profile_picture.url }}" alt="Profile Photo"
+        class="rounded-full  w-20 h-20 object-contain  object-center mb-4" width="100%" height="100%" >
+   
+        {% endif %}
+
+        <!-- Display profile data -->
+        <p><strong>Username:</strong> {{ patient.username }}</p>
+        <p><strong>Email:</strong> {{ patient.email }}</p>
+        <p><strong>Name:</strong> {{ patient.name }}</p>
+        <p><strong>Address:</strong> {{ patient.address }}</p>
+        <p><strong>Contact Number:</strong> {{ patient.contact_number }}</p>
+        <p><strong>City:</strong> {{ patient.city }}</p>
+        <br>
+        <br>
+        <br>
+        <a href="{% url 'update_patient_profile' patient.id %}" class="bg-blue-500 text-white p-2 rounded">Update Profile</a>
+        <a href="{% url 'delete_patient_profile' patient.id %}" class="bg-red-500 text-white p-2 rounded">Delete Profile</a>
+
+    </div>
+
+    
+
+</body>
+
+
+</html>

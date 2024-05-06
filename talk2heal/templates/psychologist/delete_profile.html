@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+  <title>Delete Psychologist Profile</title>
+</head>
+
+<body class="bg-gray-100">
+  <a href="{% url 'psychologist_dashboard' %}" class="text-blue-500 hover:text-blue-700 transition duration-300 ease-in-out mb-4 block">Go to Dashboard</a>
+
+  <div class="max-w-md mx-auto mt-8 bg-white p-8 border rounded">
+    <h2 class="text-2xl font-bold mb-6">Delete Psychologist Profile</h2>
+
+    <p class="mb-4">Are you sure you want to delete your profile?</p>
+
+    <form method="post">
+      {% csrf_token %}
+      <button type="submit" class="bg-red-500 text-white p-2 rounded">Delete Profile</button>
+    </form>
+  </div>
+
+</body>
+
+</html>

@@ -1,0 +1,36 @@
+<!-- psychologist/earnings.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Earnings</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <!-- Add any additional styles or CDN links if needed -->
+</head>
+<body class="bg-gray-100">
+    <nav class="bg-white shadow-lg">
+        <div class="max-w-7xl mx-auto px-4">
+            <div class="flex justify-between items-center py-4">
+                <div>
+                    <a href="{% url 'psychologist_appointments' %}" class="text-xl font-bold text-gray-800">Dashboard</a>
+                </div>
+                <div class="hidden md:flex items-center space-x-4">
+                    <a href="{% url 'psychologist_appointments' %}" class="button">Appointments</a>
+                    <a href="{% url 'psychologist_earnings' %}" class="button">My Earnings</a>
+                    <a href="{% url 'psychologist_profile' %}" class="button">Profile</a>
+                    <a href="{% url 'psychologist_logout' %}" class="button">Logout</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+    <div  class="p-8">
+    <div class="max-w mx-auto bg-white p-8 border border-gray-300 shadow-md rounded">
+
+        <h1 class="text-3xl font-semibold mb-6">My Earnings</h1>
+        <p class="text-xl mb-4">Total Earnings: ${{ earnings }}</p>
+        <!-- You can customize the display of earnings as needed -->
+    </div>
+    </div>
+</body>
+</html>

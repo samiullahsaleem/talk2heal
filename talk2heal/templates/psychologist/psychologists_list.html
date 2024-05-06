@@ -1,0 +1,100 @@
+<!-- psychologist/psychologists_list.html -->
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Psychologists List</title>
+    <!-- Include Tailwind CSS from CDN (replace with your own setup) -->
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+</head>
+
+<body class="bg-gray-100">
+    <nav class="bg-blue-600 shadow">
+        <div class="container mx-auto px-6 py-4">
+            <div class="flex justify-between items-center">
+                <div>
+                    <a class="text-white text-2xl font-semibold" href="#">Dashboard</a>
+                </div>
+                <div class="hidden md:block">
+                    <div class="ml-10 flex items-baseline space-x-4">
+                        <a href="{% url 'chat' %}" class="text-gray-300 hover:bg-gray-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium">Talk2Heal Bot</a>
+
+                        <a href="{% url 'patient_appointments' %}" class="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium">My Appointments</a>
+                        <a href="{% url 'patient_profile' %}" class="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium">Profile</a>
+                        <a href="{% url 'psychologists_list'  %}" class="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium">Psychologists</a>
+                        <a href="{% url 'patient_spendings' %}" class="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium">My Spendings</a>
+                        <a href="{% url 'patient_logout' %}" class="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium">Logout</a>
+                    </div>
+                </div>
+                <div class="md:hidden">
+                    <button type="button" class="text-gray-400 hover:text-white focus:outline-none focus:text-white">
+                        <svg class="h-6 w-6 fill-current" viewBox="0 0 24 24">
+                            <path fill-rule="evenodd" d="M4 6h16V5H4v1zm0 5h16v-1H4v1zm0 7h16v-1H4v1z" clip-rule="evenodd" />
+                        </svg>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <div class="md:hidden">
+            <div class="px-2 pt-2 pb-3 space-y-1 sm:px-3">
+                <a href="{% url 'patient_appointments' %}" class="text-gray-300 hover:bg-gray-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium">My Appointments</a>
+                <a href="{% url 'patient_profile' %}" class="text-gray-300 hover:bg-gray-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium">Profile</a>
+                <a href="{% url 'psychologists_list'  %}" class="text-gray-300 hover:bg-gray-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium">Psychologists</a>
+                <a href="{% url 'patient_spendings' %}" class="text-gray-300 hover:bg-gray-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium">My Spendings</a>
+                {% if is_patient %}
+                <a href="{% url 'patient_logout' %}" class="text-gray-300 hover:bg-gray-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium">Logout</a>
+                {% endif %}
+            </div>
+        </div>
+    </nav>
+    <div class="p-8">
+
+
+
+    <!-- Search Bar -->
+    <form action="{% url 'search_psychologists' %}" method="GET" class="mb-6">
+        <input type="text" name="q" placeholder="Search Psychologists" class="px-4 py-2 border border-gray-300 rounded-md">
+        <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded-md ml-2 hover:bg-blue-600 transition duration-300 ease-in-out">Search</button>
+    </form>
+
+    <h2 class="text-3xl font-semibold mb-6">Recommended Psychologists </h2>
+<div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8">
+    {% for psychologist in recommended_psychologists %}
+        <div class="bg-white p-4 rounded-md shadow-md">
+            <img src="{{ psychologist.profile_picture.url }}" alt="{{ psychologist.name }}"
+                class="w-full h-45 object-cover mb-4 rounded-md">
+            <h3 class="text-lg font-semibold mb-2">{{ psychologist.name }}</h3>
+            <p class="text-gray-600 mb-2">{{ psychologist.degree }}</p>
+            <p class="text-gray-700">Rate: ${{ psychologist.rate }}</p>
+            <a href="{% url 'book_appointment' psychologist.id %}"
+                class="mt-4 bg-blue-500 text-white px-4 py-2 rounded-md inline-block hover:bg-blue-600 transition duration-300 ease-in-out">
+                Book Appointment
+            </a>
+        </div>
+    {% endfor %}
+</div>
+
+    <h2 class="text-3xl font-semibold mb-6">Available Psychologists </h2>
+    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8">
+        {% for psychologist in psychologists %}
+            <div class="bg-white p-4 rounded-md shadow-md">
+                <img src="{{ psychologist.profile_picture.url }}" alt="{{ psychologist.name }}"
+                    class="w-full h-45 object-cover mb-4 rounded-md">
+                <h3 class="text-lg font-semibold mb-2">{{ psychologist.name }}</h3>
+                <p class="text-gray-600 mb-2">{{ psychologist.degree }}</p>
+                <p class="text-gray-700">Rate: ${{ psychologist.rate }}</p>
+                <a href="{% url 'book_appointment' psychologist.id %}"
+                    class="mt-4 bg-blue-500 text-white px-4 py-2 rounded-md inline-block hover:bg-blue-600 transition duration-300 ease-in-out">
+                    Book Appointment
+                </a>
+            </div>
+        {% endfor %}
+    </div>
+    </div>
+
+</body>
+
+</html>

@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+  <title>Update Psychologist Profile</title>
+</head>
+
+<body class="bg-gray-100">
+  <nav class="bg-white shadow-lg">
+    <div class="max-w-7xl mx-auto px-4">
+        <div class="flex justify-between items-center py-4">
+            <div>
+                <a href="{% url 'psychologist_appointments' %}" class="text-xl font-bold text-gray-800">Dashboard</a>
+            </div>
+            <div class="hidden md:flex items-center space-x-4">
+                <a href="{% url 'psychologist_appointments' %}" class="button">Appointments</a>
+                <a href="{% url 'psychologist_earnings' %}" class="button">My Earnings</a>
+                <a href="{% url 'psychologist_profile' %}" class="button">Profile</a>
+                <a href="{% url 'psychologist_logout' %}" class="button">Logout</a>
+            </div>
+        </div>
+    </div>
+</nav>
+  <div class="max-w-md mx-auto mt-8 bg-white p-8 border rounded">
+    
+
+    <h2 class="text-2xl font-bold mb-6">Update Psychologist Profile</h2>
+    <form method="post" enctype="multipart/form-data" action="{% url 'update_psychologist_profile' psychologist.id %}">
+
+      {% csrf_token %}
+
+      <div class="mb-4">
+        <label for="name" class="block text-sm font-medium text-gray-600">Name</label>
+        <input type="text" id="name" name="name" value="{{ psychologist.name }}"
+               class="mt-1 p-2 border rounded w-full">
+      </div>
+
+      <div class="mb-4">
+        <label for="username" class="block text-sm font-medium text-gray-600">Username</label>
+        <input type="text" id="username" name="username" value="{{ psychologist.username }}"
+               class="mt-1 p-2 border rounded w-full">
+      </div>
+
+      <div class="mb-4">
+        <label for="email" class="block text-sm font-medium text-gray-600">Email</label>
+        <input type="email" id="email" name="email" value="{{ psychologist.email }}"
+               class="mt-1 p-2 border rounded w-full">
+      </div>
+
+      <div class="mb-4">
+        <label for="address" class="block text-sm font-medium text-gray-600">Address</label>
+        <textarea id="address" name="address" class="mt-1 p-2 border rounded w-full"
+                  rows="3">{{ psychologist.address }}</textarea>
+      </div>
+
+      <div class="mb-4">
+        <label for="degree" class="block text-sm font-medium text-gray-600">Degree</label>
+        <input type="text" id="degree" name="degree" value="{{ psychologist.degree }}"
+               class="mt-1 p-2 border rounded w-full">
+      </div>
+
+      <div class="mb-4">
+        <label for="years_of_experience" class="block text-sm font-medium text-gray-600">Years of Experience</label>
+        <input type="number" id="years_of_experience" name="years_of_experience"
+               value="{{ psychologist.years_of_experience }}" class="mt-1 p-2 border rounded w-full">
+      </div>
+
+      <div class="mb-4">
+        <label for="contact_number" class="block text-sm font-medium text-gray-600">Contact Number</label>
+        <input type="text" id="contact_number" name="contact_number" value="{{ psychologist.contact_number }}"
+               class="mt-1 p-2 border rounded w-full">
+      </div>
+
+        <div class="mb-4">
+            <label for="city" class="block text-sm font-medium text-gray-600">City</label>
+            <input type="text" id="city" name="city" value="{{ psychologist.city }}"
+                 class="mt-1 p-2 border rounded w-full">
+        </div>
+
+        <div class="mb-4">
+            <label for="rate" class="block text-sm font-medium text-gray-600">Per Hour Rate</label>
+            <input type="number" id="rate" name="rate" value="{{ psychologist.rate }}"
+                 class="mt-1 p-2 border rounded w-full">
+        </div>
+
+      <div class="mb-4">
+        <label for="profile_picture" class="block text-sm font-medium text-gray-600">Profile Picture</label>
+        <input type="file" id="profile_picture" name="profile_picture" accept="image/*"
+               class="mt-1 p-2 border rounded w-full">
+      </div>
+
+      <button type="submit" class="bg-blue-500 text-white p-2 rounded">Update Profile</button>
+
+    </form>
+  </div>
+
+</body>
+
+</html>

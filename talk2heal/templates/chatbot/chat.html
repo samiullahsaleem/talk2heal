@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Talk2Heal Chatbot</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+</head>
+<body class="bg-gray-100">
+    <nav class="bg-blue-600 shadow">
+        <div class="container mx-auto px-6 py-4">
+            <div class="flex justify-between items-center">
+                <div>
+                    <a class="text-white text-2xl font-semibold" href="#">Talk2Heal Chatbot</a>
+                </div>
+                <div class="hidden md:block">
+                    <div class="ml-10 flex items-baseline space-x-4">
+                        <a href="{% url 'patient_appointments' %}" class="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium">My Appointments</a>
+                        <a href="{% url 'patient_profile' %}" class="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium">Profile</a>
+                        <a href="{% url 'psychologists_list'  %}" class="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium">Psychologists</a>
+                        <a href="{% url 'patient_spendings' %}" class="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium">My Spendings</a>
+                        <a href="{% url 'patient_logout' %}" class="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium">Logout</a>
+                    </div>
+                </div>
+                <div class="md:hidden">
+                    <button type="button" class="text-gray-400 hover:text-white focus:outline-none focus:text-white">
+                        <svg class="h-6 w-6 fill-current" viewBox="0 0 24 24">
+                            <path fill-rule="evenodd" d="M4 6h16V5H4v1zm0 5h16v-1H4v1zm0 7h16v-1H4v1z" clip-rule="evenodd" />
+                        </svg>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <div class="md:hidden">
+            <div class="px-2 pt-2 pb-3 space-y-1 sm:px-3">
+                <a href="{% url 'patient_appointments' %}" class="text-gray-300 hover:bg-gray-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium">My Appointments</a>
+                <a href="{% url 'patient_profile' %}" class="text-gray-300 hover:bg-gray-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium">Profile</a>
+                <a href="{% url 'psychologists_list'  %}" class="text-gray-300 hover:bg-gray-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium">Psychologists</a>
+                <a href="{% url 'patient_spendings' %}" class="text-gray-300 hover:bg-gray-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium">My Spendings</a>
+                {% if is_patient %}
+                <a href="{% url 'patient_logout' %}" class="text-gray-300 hover:bg-gray-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium">Logout</a>
+                {% endif %}
+            </div>
+        </div>
+    </nav>
+    <div class="container mx-auto py-8 px-4">
+        
+
+        
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+            <!-- Chatbot iframe -->
+            <div class="chatbot">
+                <h2 class="text-2xl font-semibold mb-4">Let me give you therapy 😇 </h2>
+               
+                
+                <iframe src="https://app.usefini.com/widgets/QebhyEQ6fH" width="100%" height="60%" frameborder="0" scrolling="auto"></iframe>
+            </div>
+
+            <!-- Recommended Psychologists -->
+            <div class="psychologists">
+                <h2 class="text-2xl font-semibold mb-4">Recommended Psychologists</h2>
+                {% for psychologist in recommended_psychologists %}
+                    <div class="bg-white p-4 rounded-md shadow-md mb-4">
+                        <img src="{{ psychologist.profile_picture.url }}" alt="{{ psychologist.name }}" class="w-32 h-32 object-cover mb-4 rounded-md">
+                        <h3 class="text-lg font-semibold mb-2">{{ psychologist.name }}</h3>
+                        <p class="text-gray-600 mb-2">{{ psychologist.degree }}</p>
+                        <p class="text-gray-700">Rate: ${{ psychologist.rate }}</p>
+                        <a href="{% url 'book_appointment' psychologist.id %}" class="mt-4 bg-blue-500 text-white px-4 py-2 rounded-md inline-block hover:bg-blue-600 transition duration-300 ease-in-out">Book Appointment</a>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+</body>
+</html>

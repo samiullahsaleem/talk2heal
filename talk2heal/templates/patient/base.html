@@ -1,0 +1,20 @@
+<!-- base.html -->
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Your Site</title>
+    <!-- Add your CSS and other head elements here -->
+</head>
+<body>
+    <nav>
+        <a href="{% url 'patient_signup' %}">Patient Sign Up</a>
+        <a href="{% url 'patient_login' %}">Patient Login</a>
+        <!-- Add other navigation links as needed -->
+    </nav>
+    
+    {% block content %}{% endblock %}
+    
+    <!-- Add your footer and other common elements here -->
+</body>
+</html>

@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Your Appointments</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+</head>
+
+<body class="bg-gray-100 ">
+    <nav class="bg-blue-600 shadow">
+        <div class="container mx-auto px-6 py-4">
+            <div class="flex justify-between items-center">
+                <div>
+                    <a class="text-white text-2xl font-semibold" href="{% url 'psychologists_list' %}">Dashboard</a>                </div>
+                <div class="hidden md:block">
+                    <div class="ml-10 flex items-baseline space-x-4">
+                        <a href="{% url 'chat' %}" class="text-gray-300 hover:bg-gray-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium">Talk2Heal Bot</a>
+
+                        <a href="{% url 'patient_appointments' %}" class="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium">My Appointments</a>
+                        <a href="{% url 'patient_profile' %}" class="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium">Profile</a>
+                        <a href="{% url 'psychologists_list'  %}" class="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium">Psychologists</a>
+                        <a href="{% url 'patient_spendings' %}" class="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium">My Spendings</a>
+                        <a href="{% url 'patient_logout' %}" class="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium">Logout</a>
+                    </div>
+                </div>
+                <div class="md:hidden">
+                    <button type="button" class="text-gray-400 hover:text-white focus:outline-none focus:text-white">
+                        <svg class="h-6 w-6 fill-current" viewBox="0 0 24 24">
+                            <path fill-rule="evenodd" d="M4 6h16V5H4v1zm0 5h16v-1H4v1zm0 7h16v-1H4v1z" clip-rule="evenodd" />
+                        </svg>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <div class="md:hidden">
+            <div class="px-2 pt-2 pb-3 space-y-1 sm:px-3">
+                <a href="{% url 'patient_appointments' %}" class="text-gray-300 hover:bg-gray-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium">My Appointments</a>
+                <a href="{% url 'patient_profile' %}" class="text-gray-300 hover:bg-gray-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium">Profile</a>
+                <a href="{% url 'psychologists_list'  %}" class="text-gray-300 hover:bg-gray-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium">Psychologists</a>
+                <a href="{% url 'patient_spendings' %}" class="text-gray-300 hover:bg-gray-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium">My Spendings</a>
+
+                <a href="{% url 'patient_logout' %}" class="text-gray-300 hover:bg-gray-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium">Logout</a>
+            </div>
+        </div>
+    </nav>
+    <div class="max-w mx-auto bg-white p-8 border border-gray-300 shadow-md rounded">
+
+
+        <h2 class="text-2xl font-semibold mb-6">Your Appointments</h2>
+        <div class="flex">
+            <div class="w-1/2 pr-4">
+                <h3 class="text-xl font-semibold mb-4">Upcoming Appointments</h3>
+                <ul>
+                    {% if appointments %}
+                    {% for appointment in appointments %}
+                    {% if appointment.appointment_date >= todaydate %}
+                    <li class="mb-4">
+                        <div class="flex justify-between">
+                            <div>
+                                <strong class="text-lg">{{ appointment.appointment_date }}</strong><br>
+                                {% if appointment.location == 'online' %}
+                                <span class="text-green-700">Location:</span> {{ appointment.location }}
+                                <br>
+                                {% if appointments.appointment.appointment_date.minute >= today %}
+                                <span class="text-red-700">Meeting Link:</span>
+                                <a href="{{ appointment.chat_link }}" target="_blank" class="text-blue-500">Join Meeting</a>
+                                {% else %}
+                                <span class="text-red-700">Meeting hasn't started yet.</span>
+                                {% endif %}
+
+                                {% endif %}
+                                <br>
+                                {% if appointment.location == 'physical' %}
+                                <span class="text-green-700">Location:</span> {{ appointment.location }}
+                                <br>
+                                <span class="text-red-700">Address:</span> {{ appointment.chat_link }}
+                                {% endif %}
+                            </div>
+                            <div class="flex items-center">
+                                <span class="text-gray-500">Psychologist: {{ appointment.psychologist.name }}</span>
+                            </div>
+                        </div>
+                    </li>
+                    {% endif %}
+                    {% endfor %}
+                    {% endif %}
+                </ul>
+            </div>
+            <div class="w-1/2 pl-4">
+                <h3 class="text-xl font-semibold mb-4">Past Appointments</h3>
+                <ul>
+                    {% for appointment in appointments %}
+                    {% if appointment.appointment_date < todaydate %}
+                    <li class="mb-4">
+                        <div class="flex justify-between">
+                            <div>
+                                <strong class="text-lg">{{ appointment.appointment_date }}</strong><br>
+                                {% if appointment.location == 'online' %}
+                                <span class="text-green-700">Location:</span> {{ appointment.location }}
+                                <br>
+                                <span class="text-red-700">Meeting already done</span>
+                                <br>
+                                {% endif %}
+                                {% if appointment.location == 'physical' %}
+                                <span class="text-green-700">Location:</span> {{ appointment.location }}
+                                <br>
+                                <span class="text-red-700">Address:</span> {{ appointment.chat_link }}
+                                {% endif %}
+                            </div>
+                            <div class="flex items-center">
+                                <span class="text-gray-500">Psychologist: {{ appointment.psychologist.name }}</span>
+                            </div>
+                        </div>
+                    </li>
+                    {% endif %}
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
+
+
+    </div>
+
+</body>
+
+</html>

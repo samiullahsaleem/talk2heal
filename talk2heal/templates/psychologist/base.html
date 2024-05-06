@@ -1,0 +1,21 @@
+<!-- base.html -->
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Talk2Heal</title>
+    
+    <!-- Add your CSS and other head elements here -->
+</head>
+<body>
+    <nav>
+        <a href="{% url 'psychologist_signup' %}">Psychologist Sign Up</a>
+        <a href="{% url 'psychologist_login' %}">Psychologist Login</a>
+        <!-- Add other navigation links as needed -->
+    </nav>
+    
+    {% block content %}{% endblock %}
+    
+    <!-- Add your footer and other common elements here -->
+</body>
+</html>

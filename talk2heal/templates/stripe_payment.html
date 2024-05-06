@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Stripe Payment</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+</head>
+
+<body class="bg-gray-100">
+
+    <div class="container mx-auto p-8">
+        <h2 class="text-3xl font-semibold mb-6">Stripe Payment</h2>
+
+        <div class="bg-white p-6 rounded-md shadow-md">
+            <h3 class="text-lg font-semibold mb-4">Psychologist Information</h3>
+            <p class="text-gray-600 mb-2"><span class="font-semibold">Name:</span> {{ appointment.psychologist.name }}</p>
+            <p class="text-gray-600 mb-2"><span class="font-semibold">Degree:</span> {{ appointment.psychologist.degree }}</p>
+            <p class="text-gray-700"><span class="font-semibold">Rate:</span> ${{ appointment.psychologist.rate }}</p>
+        </div>
+
+        <div class="mt-8">
+            <h3 class="text-lg font-semibold mb-4">Payment Details</h3>
+            <form action="{% url 'stripe_payment' appointment.id %}" method="post" id="payment-form">
+                {% csrf_token %}
+
+                <!-- Other form fields -->
+
+                <div id="card-element" class="mb-4">
+                    <!-- A Stripe Element will be inserted here. -->
+                </div>
+
+                <!-- Used to display form errors. -->
+                <div id="card-errors" role="alert" class="text-red-500"></div>
+
+                <button type="submit"
+                    class="bg-blue-500 text-white px-4 py-2 rounded-md inline-block hover:bg-blue-600 transition duration-300 ease-in-out">
+                    Pay Now
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Include Stripe.js -->
+    <script src="https://js.stripe.com/v3/"></script>
+
+    <script>
+        var stripe = Stripe('pk_test_5fIN7TPfDAlQzzWxwbBTPUSh00ZCRfBK7F');
+        var elements = stripe.elements();
+
+        // Create an instance of the card Element.
+        var card = elements.create('card');
+
+        // Add an instance of the card Element into the 'card-element' div.
+        card.mount('#card-element');
+
+        // Handle real-time validation errors from the card Element.
+        card.addEventListener('change', function (event) {
+            var displayError = document.getElementById('card-errors');
+            if (event.error) {
+                displayError.textContent = event.error.message;
+            } else {
+                displayError.textContent = '';
+            }
+        });
+
+        // Create a token or display an error when the form is submitted.
+        var form = document.getElementById('payment-form');
+        form.addEventListener('submit', function (event) {
+            event.preventDefault();
+
+            stripe.createToken(card).then(function (result) {
+                if (result.error) {
+                    // Inform the user if there was an error.
+                    var errorElement = document.getElementById('card-errors');
+                    errorElement.textContent = result.error.message;
+                } else {
+                    // Send the token to your server.
+                    var tokenInput = document.createElement('input');
+                    tokenInput.type = 'hidden';
+                    tokenInput.name = 'stripeToken';
+                    tokenInput.value = result.token.id;
+                    form.appendChild(tokenInput);
+
+                    // Submit the form
+                    form.submit();
+                }
+            });
+        });
+    </script>
+
+</body>
+
+</html>
