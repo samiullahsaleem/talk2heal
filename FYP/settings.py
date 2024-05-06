@@ -23,7 +23,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-fm4klxq-r#!m9!jid7k5v3a9@$q1z5sv8zuo2=f^d6ywl$#!ce'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 ALLOWED_HOSTS = ['talk2heal1.azurewebsites.net','*']
 
